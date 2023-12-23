@@ -491,7 +491,7 @@ Hình 2.8 Một số hình ảnh từ bộ dữ liệu chứa ảnh CINIC-10
 
 ##### 2.3.2.1 Kết quả với bộ dữ liệu MNIST
 
-<img src="<img src="picture/2.9.png">">
+<img src="picture/2.9.png">">
 
 Hình 2.9 Tỉ lệ mất mát của các thuật toán tối ưu trên tập dữ liệu MNIST
 
