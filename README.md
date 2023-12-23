@@ -454,6 +454,358 @@ AMSGrad được cập nhật theo quy tắc:
 
 w𝑡+1 = wt -η/√((v_t ) ̂  + ϵ)*m𝑡
 
+### 2.3 So sánh các thuật toán tối ưu với bộ dữ liệu MNIST và CIFAR-10
+#### 2.3.1 Cơ sở dữ liệu
+##### 2.3.1.1 MNIST
+
+Bộ dữ liệu MNIST là bộ dữ liệu gồm các hình ảnh xám (grayscale picture) các chữ số viết tay được chia sẻ bởi Yann Lecun bao gồm 70000 ảnh chữ số viết tay được chia thành 2 tập: tập huấn luyện gồm 60000 ảnh và tập kiểm tra 10000 ảnh. Các chữ số viết tay ở tập MNIST được chia thành 10 nhóm tương ứng với các chữ số từ 0 đến 9. Tất cả hình ảnh trong tập MNIST đều được chuẩn hóa với kích thước 28 x 28 điểm ảnh. Dưới đây là một số hình ảnh được trích xuất từ bộ dữ liệu.
+
+<img src="picture/2.6.png">
+
+Hình 2.6 Hình ảnh chữ số viết tay từ tập MNIST
+
+(https://vi.wikipedia.org/wiki/C%C6%A1_s%E1%BB%9F_d%E1%BB%AF_li%E1%BB%87u_MNIST)
+
+###### 2.3.1.2 CIFAR-10
+
+Bộ cơ sở dữ liệu CIFAR-10 là bộ dữ liệu chứa các ảnh màu có kích thước 32 x 32 x 3 (3 lớp màu RGB) trong 10 nhóm khác nhau, gồm: máy bay, ô tô, chim, mèo, hươu, chó, ếch, ngựa, tàu và xe tải. Mỗi nhóm gồm 6000 hình ảnh, cùng với sự đa dạng về các thành phần như độ sáng, vị trí, hướng của các đối tượng. Nó là một trong những bộ dữ liệu được sử dụng rộng rãi nhất cho nghiên cứu máy học bao gồm 60000 ảnh được chia thành 2 tập: tập huấn luyện gồm 50000 ảnh và tập kiểm tra 10000 ảnh.
+
+<img src="picture/2.7.png">
+
+Hình 2.7 Một số hình ảnh từ bộ dữ liệu chứa ảnh CIFAR-10
+
+(https://www.cs.toronto.edu/~kriz/cifar.html)
+
+###### 2.3.1.3 CINIC-10
+
+Bộ cơ sở dữ liệu CINIC-10 gồm 270,000 bức ảnh, thuộc về 10 lớp khác nhau như ở CIFAR-10, chia làm 3 phần: tập huấn luyện, tập kiểm thử và tập kiểm định, mỗi tập có 90,000 phần tử. CINIC có thể coi là tập mở rộng của CIFAR-10, bổ sung thêm nhiều phần tử ảnh trích xuất từ tập ImageNet và được chỉnh sửa để có kích thước tương tự với phần tử ảnh trong tập CIFAR-10. 
+CINIC-10 có tập kiểm thử lên đến 90,000 phần tử. Theo [5], việc các mẫu dữ liệu trích xuất từ ImageNet bị giảm kích thước thành 32x32 sẽ làm tăng độ khó của việc phân lớp do số lượng đặc trưng ít hơn. Việc tập huấn luyện và tập kiểm thử có tỉ lệ 1:1 cũng sẽ giúp đánh giá được khả năng khái quát hóa của mô hình.
+
+<img src="picture/2.8.png">
+
+Hình 2.8 Một số hình ảnh từ bộ dữ liệu chứa ảnh CINIC-10
+
+(https://paperswithcode.com/dataset/cinic-10) 
+
+#### 2.3.2 Kết quả
+
+##### 2.3.2.1 Kết quả với bộ dữ liệu MNIST
+
+<img src="<img src="picture/2.9.png">">
+
+Hình 2.9 Tỉ lệ mất mát của các thuật toán tối ưu trên tập dữ liệu MNIST
+
+<img src="picture/2.10.png">
+
+Hình 2.10 Tỉ lệ nhận dạng đúng của các thuật toán trên tập huấn luyện và tập đánh giá của tập dữ liệu MNIST
+
+##### 2.3.2.2 Kết quả với bộ dữ liệu CIFAR-10
+
+<img src="picture/2.11.png">
+
+Hình 2.11 Tỉ lệ mất mát của các thuật toán tối ưu trên tập dữ liệu CIFAR-10
+
+<img src="picture/2.12.png">
+
+Hình 2.12 Tỉ lệ nhận dạng đúng của các thuật toán trên tập huấn luyện và tập đánh giá của tập dữ liệu CIFAR-10
+
+##### 2.3.2.3 Kết quả với bộ dữ liệu CINIC-10
+
+<img src="picture/2.13.png">
+
+Hình 2.13 Độ chính xác của mô hình ResNet110 huấn luyện trên tập CINIC-10
+
+<img src="picture/2.14.png">
+
+Hình 2.14 Kết quả thử nghiệm với tập CINIC-10
+
+(các giá trị in đậm là các kết quả tốt nhất của mỗi cột)
+
+## CHƯƠNG 3 – CONTINUAL LEARNING VÀ TEST PRODUCTION
+
+### 3.1 Continual Learning
+
+#### 3.1.1 Continual Learning là gì?
+
+<img src="picture/3.1.png">
+
+Hình 3.1 Continual Learning
+
+Continual Learning (còn gọi là Incremental Learning, Life-long Learning) là là một mô hình học máy tập trung vào các mô hình đào tạo để tiếp thu kiến thức mới và thích ứng với việc thay đổi dữ liệu theo thời gian.. Ngược lại với học máy truyền thống, trong đó các mô hình thường được đào tạo trên các tập dữ liệu cố định và giả định rằng việc phân phối dữ liệu không đổi, học liên tục được thiết kế để xử lý các phân phối dữ liệu đang phát triển và liên tục học hỏi từ dữ liệu mới trong khi vẫn giữ được kiến thức từ những trải nghiệm trước đó. Điều này đặc biệt quan trọng trong các trường hợp dữ liệu không cố định, nghĩa là nó thay đổi theo thời gian.
+
+Ngoài ra, hệ thống Continual Learning có thể được định nghĩa là một thuật toán thích ứng có khả năng học từ một luồng thông tin liên tục, với thông tin đó sẽ dần dần có sẵn theo thời gian và trong đó số lượng nhiệm vụ cần học (Ví dụ: các lớp thành viên trong một nhiệm vụ phân loại) không được xác định trước . Điều quan trọng là việc cung cấp thông tin mới phải diễn ra mà không bị lãng quên hoặc can thiệp một cách nghiêm trọng.
+
+#### 3.1.2 Các thách thức chính và giải pháp liên quan đến Continual Learning
+
+##### 3.1.2.1 Sự quên lãng nghiêm trọng (Catastrophic Forgetting)
+
+Một trong những thách thức chính trong việc học tập liên tục là ngăn chặn tình trạng quên lãng nghiêm trọng. Điều này đề cập đến hiện tượng một mô hình quên thông tin đã học trước đó khi được huấn luyện trên dữ liệu mới. Nhiều kỹ thuật khác nhau đã được phát triển để giải quyết vấn đề này, chẳng hạn như phương pháp chính quy hóa, bộ đệm phát lại và phương pháp tiếp cận kiến trúc như là bộ nhớ phân đoạn thần kinh (neural episodic memories).
+
+<img src="picture/3.2.png">
+
+Hình 3.2 Tóm tắt các phương pháp truyền thống để giải quyết sự quên lãng nghiêm trọng
+
+1.	Bộ đệm phát lại (Replay Buffers)
+
+Bộ đệm phát lại lưu trữ một tập hợp con dữ liệu trong quá khứ và sử dụng nó trong quá trình đào tạo để giúp mô hình lưu giữ kiến thức về các tác vụ trước đó. Điều này cho phép mô hình xem lại và huấn luyện dữ liệu cũ để giảm thiểu tình trạng quên dữ liệu theo định kỳ.
+
+2.	Chính quy hóa (Regularization)
+
+Các kỹ thuật như elastic weight consolidation (EWC) và synaptic intelligence (SI) đưa ra các thuật ngữ chính quy hóa cho loss function , xử phạt các thay đổi đối với các tham số thiết yếu quan trọng cho các tác vụ trước đây. Điều này giúp mô hình lưu giữ kiến thức về các nhiệm vụ trước đó.
+
+3.	Phương pháp tiếp cận kiến trúc (Architectural Approaches)
+
+Một số phương pháp liên quan đến việc sửa đổi kiến trúc neural network để tạo điều kiện cho việc học tập liên tục. Ví dụ: progressive neural networks (PNNs) tăng dần mạng khi học được các nhiệm vụ mới, trong khi các mạng khác sử dụng kiến trúc mô-đun hoặc có thể mở rộng.
+
+4.	Học chuyển giao (Transfer Learning)
+
+Các kỹ thuật  học chuyển giao có thể được điều chỉnh cho phù hợp với các tình huống học tập liên tục khi một mô hình được đào tạo trước trên một tập dữ liệu lớn và sau đó tinh chỉnh cho một nhiệm vụ mới. Các mô hình được đào tạo trước về dữ liệu đa dạng có thể khái quát hóa tốt hơn khi học dần các nhiệm vụ mới.
+
+5.	Siêu học tập (Meta-Learning)
+
+Siêu học tập là một cách tiếp cận khác có thể giúp các mô hình thích ứng nhanh chóng với các nhiệm vụ mới. Các thuật toán siêu học tập đào tạo các mô hình cách học, giúp chúng tiếp thu kiến thức mới hiệu quả hơn.
+
+###### 3.1.2.2 Số liệu đánh giá (Evaluation Metrics)
+
+Việc phát triển các số liệu đánh giá phù hợp cho việc học tập liên tục là một thách thức vì các số liệu truyền thống có thể không nắm bắt đầy đủ khả năng ghi nhớ các nhiệm vụ cũ của mô hình trong khi học các nhiệm vụ mới. Các số liệu như độ chính xác trung bình trên tất cả các tác vụ (MAOT) hoặc hiệu suất phát lại bộ nhớ thường được sử dụng.
+
+#### 3.1.3 Các bước và chiến lược để thực hiện Continual Learning
+
+1.	Quản lý dữ liệu:
+
+•	Thiết lập hệ thống quản lý dữ liệu để xử lý các luồng dữ liệu hoặc tác vụ đến.
+
+•	Lưu trữ dữ liệu trong quá khứ và làm cho nó có thể truy cập được để cập nhật mô hình.
+
+2.	Kỹ thuật chính quy hóa:
+
+•	Sử dụng các kỹ thuật chính quy hóa để bảo vệ các tham số mô hình quan trọng liên quan đến các tác vụ trước đó.
+
+•	Các ví dụ bao gồm Elastic Weight Consolidation (EWC), Synaptic Intelligence (SI) và chính quy hóa dựa trên đường dẫn.
+
+4.	Học trực tuyến:
+
+•	Triển khai học tập trực tuyến, trong đó mô hình cập nhật liên tục khi có dữ liệu mới.
+
+•	Sử dụng các cập nhật nhỏ hoặc cập nhật gia tăng để thích ứng với thông tin mới.
+
+5.	Phát lại bộ nhớ
+
+•	Triển khai học tập trực tuyến, trong đó mô hình cập nhật liên tục khi có dữ liệu mới.
+
+•	Sử dụng các cập nhật nhỏ hoặc cập nhật gia tăng để thích ứng với thông tin mới.
+
+6.	Chuyển tiếp học tập
+
+•	Triển khai học tập trực tuyến, trong đó mô hình cập nhật liên tục khi có dữ liệu mới.
+
+•	Sử dụng các cập nhật nhỏ hoặc cập nhật gia tăng để thích ứng với thông tin mới.
+
+7.	Sửa đổi kiến trúc
+
+•	Thử nghiệm các sửa đổi kiến trúc cho phép mô hình thích ứng và mở rộng khi có nhiệm vụ mới.
+
+•	Progressive neural networks, kiến trúc mô-đun và các mô hình có thể mở rộng là những ví dụ.
+
+8.	Đánh giá thường xuyên
+
+•	Liên tục đánh giá hiệu quả hoạt động của mô hình trên cả nhiệm vụ mới và cũ.
+
+•	Sử dụng các số liệu đánh giá thích hợp, chẳng hạn như độ chính xác trung bình trên tất cả các nhiệm vụ (MAOT), để theo dõi tiến độ.
+
+9.	Tỷ lệ quên động
+
+•	Triển khai các chiến lược hoặc tỷ lệ quên linh hoạt cho mô hình để kiểm soát tốc độ quên thông tin cũ.
+
+•	Làm cho quá trình quên thích ứng với tầm quan trọng của các nhiệm vụ trong quá khứ.
+
+10.	Siêu học tập
+
+•	Khám phá các kỹ thuật siêu học tập, trong đó mô hình học cách thích ứng nhanh chóng với các nhiệm vụ mới bằng cách đào tạo về nhiều nhiệm vụ khác nhau.
+
+11.	Cơ chế phát hiện trôi dạt
+
+•	Phát triển các cơ chế để phát hiện sự trôi dạt khái niệm hoặc những thay đổi trong phân phối dữ liệu.
+
+•	Cập nhật mô hình kích hoạt khi phát hiện sai lệch khái niệm quan trọng.
+
+12.	Nhãn nhiệm vụ
+
+•	Sử dụng nhãn nhiệm vụ hoặc siêu thông tin để hướng dẫn quá trình học tập của mô hình nếu có.
+
+•	Thông tin về nhiệm vụ cụ thể có thể giúp mô hình giữ lại hoặc quên thông tin một cách có chọn lọc.
+
+13.	Bảo trì thường xuyên
+
+•	Các mô hình học tập liên tục đòi hỏi phải duy trì và giám sát thường xuyên.
+
+•	Cập nhật và tinh chỉnh các mô hình khi có dữ liệu mới hoặc khi môi trường thay đổi.
+
+14.	Cân bằng dữ liệu
+
+•	Giải quyết các vấn đề mất cân bằng dữ liệu có thể phát sinh khi có nhiệm vụ hoặc luồng dữ liệu mới.
+
+•	Đảm bảo rằng mô hình không overfiting với dữ liệu gần đây nhất.
+
+15.	Bộ dữ liệu và nhiễm vụ Benchmark
+
+•	Đánh giá các thuật toán học tập liên tục của bạn trên các tập dữ liệu và nhiệm vụ tiêu chuẩn để so sánh hiệu suất của chúng với các phương pháp hiện có.
+
+#### 3.1.4 4 thuật toán Continual Learning
+
+##### 3.1.4.1 Progressive Neural Networks (PNNs)
+
+Mạng thần kinh tiến bộ (PNN) được thiết kế để học dần dần các nhiệm vụ mới trong khi vẫn duy trì kiến thức về các nhiệm vụ đã biết trước đó. Ý tưởng chính đằng sau PNN là mở rộng công suất của mô hình khi có nhiệm vụ mới. Thay vì sử dụng một mạng nơron đơn lẻ, PNN sử dụng một tập hợp mạng. Mỗi mạng trong nhóm được dành riêng cho một nhiệm vụ cụ thể. Một mạng lưới thần kinh mới được thêm vào tập hợp khi một nhiệm vụ mới được đưa ra. Sau đó, mô hình kết hợp đầu ra của tất cả các mạng để đưa ra dự đoán.
+
+Lợi ích của PNN là chúng ngăn chặn sự quên lãng nghiêm trọng bằng cách cô lập kiến thức liên quan đến từng nhiệm vụ trong các mạng chuyên dụng. Tuy nhiên, tập hợp có thể trở nên lớn khi có nhiều nhiệm vụ được học, điều này có thể dẫn đến độ phức tạp tính toán tăng lên.
+
+##### 3.1.4.2 Learning without Forgetting (LwF)
+
+Học mà không quên (LwF) là một phương pháp tiếp cận tận dụng việc chắt lọc kiến thức để giải quyết tình trạng quên lãng nghiêm trọng. Ý tưởng là sử dụng mô hình được đào tạo trước làm mạng giáo viên và mạng lưới thần kinh mới làm học sinh. Khi học một nhiệm vụ mới, mạng học sinh được huấn luyện để bắt chước dự đoán của giáo viên về dữ liệu cũ và mới. Quá trình này giúp mạng học sinh ghi nhớ được kiến thức từ các nhiệm vụ trước đó.
+
+LwF có hiệu quả về mặt tính toán vì nó không yêu cầu duy trì một tập hợp mạng lớn. Nó đặc biệt thành công trong các tình huống mà việc tinh chỉnh mô hình được đào tạo trước là có lợi.
+
+##### 3.1.4.3 iCaRL (Incremental Classifier and Representation Learning)
+
+iCaRL (Học phân loại và biểu diễn tăng dần) là một thuật toán được thiết kế cho các nhiệm vụ học tập liên tục liên quan đến phân loại. Nó kết hợp các chiến lược để học biểu diễn tính năng và lưu trữ mẫu dành riêng cho lớp. Mô hình duy trì một tập hợp các mẫu (mẫu đại diện) từ mỗi lớp đã học trước đó. Khi các lớp mới được giới thiệu, iCaRL sử dụng các mẫu này để lưu giữ kiến thức về các lớp cũ.
+
+iCaRL rất phù hợp cho các nhiệm vụ cần quan tâm đến sự mất cân bằng lớp vì nó đảm bảo rằng mô hình giữ lại kiến thức của cả lớp cũ và lớp mới trong khi thích ứng với dữ liệu mới.
+
+##### 3.1.4.4 Meta-Learning Approaches
+
+Siêu học tập (Meta-Learning) bao gồm các mô hình đào tạo để học hiệu quả và cũng đã được áp dụng cho việc học tập liên tục. Trong siêu học tập để học liên tục, các mô hình được đào tạo về nhiều nhiệm vụ khác nhau để có được chiến lược khởi tạo hoặc học tập tốt nhằm thích ứng nhanh chóng với các nhiệm vụ mới.
+
+Các kỹ thuật siêu học đã cho thấy nhiều hứa hẹn trong việc giảm thiểu tình trạng quên lãng nghiêm trọng bằng cách trang bị cho các mô hình một điểm khởi đầu vững chắc để học các nhiệm vụ mới.
+##### 3.1.5 Thuốc đo đánh giá về Continual Learning
+
+1.	Độ chính xác trung bình trên tất cả các nhiệm vụ (MAOT)
+2.	Duy trì hiệu suất nhiệm vụ
+3.	Hiệu suất phát lại bộ nhớ
+4.	Số liệu dành riêng cho nhiệm vụ
+5.	Tốc độ thích ứng và sử dụng tài nguyên
+6.	Quy trình đánh giá
+
+### 3.2 Test Production
+
+<img src="picture/3.3.png">
+
+Hình 3.3 Sơ đồ hệ thống ML và mô hình ML
+
+•	Ở giữa là mô hình ML - một tạo phẩm được tạo bởi quá trình đào tạo, mô hình này nhận đầu vào và tạo ra đầu ra.
+
+•	Hệ thống đào tạo (Training system) lấy mã và dữ liệu làm đầu vào và tạo ra mô hình được đào tạo (ML model) làm đầu ra.
+
+•	Hệ thống dự đoán (Prediction system) tiếp nhận và xử lý trước dữ liệu thô, tải mô hình ML đã đào tạo, tải trọng số mô hình, gọi model.predict() trên dữ liệu, xử lý hậu kỳ các kết quả đầu ra và trả về dự đoán (Predictions).
+
+•	Sau khi bạn triển khai hệ thống dự đoán của mình lên môi trường trực tuyến, hệ thống cung cấp sẽ tiếp nhận yêu cầu từ người dùng, tăng giảm quy mô để đáp ứng nhu cầu lưu lượng truy cập và đưa ra dự đoán ngược lại cho những người dùng đó.
+
+•	Toàn bộ hệ thống ML đóng vòng lặp bằng cách thu thập dữ liệu sản xuất (cả dự đoán mà mô hình tạo ra và phản hồi bổ sung từ người dùng, số liệu kinh doanh hoặc người gắn nhãn) và gửi chúng trở lại môi trường ngoại tuyến.
+
+•	Hệ thống ghi nhãn (Labeling system) lấy dữ liệu thô nhìn thấy trong quá trình sản xuất, giúp bạn nhận thông tin đầu vào từ người gắn nhãn và cung cấp nhãn cho dữ liệu đó.
+
+•	Hệ thống lưu trữ và xử lý trước (Storage and preprocessing system) lưu trữ và xử lý trước dữ liệu được dán nhãn trước khi chuyển nó trở lại hệ thống đào tạo (Training system).
+Kiểm tra hệ thống ML đúng cách là các bài kiểm tra có thể chạy cho từng thành phần hệ thống và xuyên qua border của các component này.
+
+#### 3.2.1 Kiểm tra cơ sở hạ tầng
+
+<img src="picture/3.4.png">
+
+Hình 3.4 Kiểm tra cơ sở hạ tầng
+
+Kiểm tra cơ sở hạ tầng là các bài kiểm tra đơn vị cho hệ thống đào tạo. Chúng giúp tránh được lỗi trong quá trình đào tạo và có thể kiểm tra đơn vị mã đào tạo giống như bất kỳ mã nào khác. Một phương pháp phổ biến khác là thêm các bài kiểm tra single-batch hoặc single-epoch để kiểm tra hiệu suất sau khi chạy chương trình đào tạo rút gọn trên một tập dữ liệu nhỏ, giúp phát hiện các hồi quy rõ ràng đối với mã đào tạo.
+
+#### 3.2.2 Kiểm tra đào tạo
+ 
+<img src="picture/3.5.png">
+
+Hình 3.5 Kiểm tra đào tạo
+
+Bài kiểm tra đào tạo là bài kiểm tra tích hợp giữa hệ thống dữ liệu và hệ thống đào tạo. Để đảm bảo rằng công việc đào tạo có thể tái tạo được.
+
+Có thể lấy một tập dữ liệu cố định và chạy một chương trình đào tạo đầy đủ hoặc rút gọn trên đó. Sau đó, kiểm tra và đảm bảo rằng hiệu suất của mô hình trên mô hình mới được đào tạo vẫn nhất quán với hiệu suất tham chiếu.
+
+Một tùy chọn khác là kéo một cửa sổ dữ liệu trượt (có thể là một cửa sổ mới cho vài ngày một lần) và chạy các bài kiểm tra huấn luyện trên cửa sổ đó.
+
+#### 3.2.3 Kiểm tra chức năng
+ 
+<img src="picture/3.6.png">
+
+Hình 3.6 Kiểm tra chức năng
+
+Kiểm tra chức năng là kiểm tra đơn vị cho hệ thống dự đoán. Chúng giúp tránh hiện tượng hồi quy trong mã tạo nên cơ sở hạ tầng dự đoán.
+
+•	Có thể kiểm tra đơn vị mã dự đoán giống như bất kỳ mã nào khác.
+
+•	Cụ thể đối với hệ thống ML, có thể tải mô hình được đào tạo trước và kiểm tra dự đoán của nó trên một số ví dụ chính.
+
+#### 3.2.4 Kiểm tra đánh giá
+ 
+<img src="picture/3.7.png">
+
+Hình 3.7 Kiểm tra đánh giá
+
+Kiểm tra đánh giá là kiểm tra tích hợp giữa hệ thống đào tạo và hệ thống dự đoán. Đảm bảo rằng một mô hình mới được đào tạo đã sẵn sàng để đưa vào sản xuất. Những điều này tạo nên phần lớn những điểm độc đáo khi thử nghiệm hệ thống ML.
+
+#### 3.2.5 Kiểm tra Shadow
+ 
+
+<img src="picture/3.8.png">
+
+Hình 3.8 Kiểm tra Shadow
+
+Kiểm tra shadow là kiểm tra tích hợp giữa hệ thống dự đoán và hệ thống phân phố. Chúng giúp phát hiện lỗi sản xuất trước khi lỗi đó gặp người dùng. Trong nhiều cài đặt, các mô hình (được xây dựng trong các khung như sklearn, Pytorch, TensorFlow, …) được phát triển tách biệt với hệ thống phần mềm hiện có. Ví dụ: mô hình gắn cờ các tweet không phù hợp có thể được phát triển trong TensorFlow trên một tập dữ liệu tĩnh chứ không phải trực tiếp trong môi trường phát trực tuyến của kiến trúc phần mềm rộng hơn. Do hệ thống dự đoán và hệ thống cung cấp được phát triển ở các cài đặt khác nhau với các giả định và môi trường khác nhau nên có nhiều cơ hội để lỗi xâm nhập. Những lỗi này có thể khó phát hiện trước khi tích hợp, vì vậy, thử nghiệm shadow có thể giúp xác định chúng trước.
+
+#### 3.2.6 Thử nghiệm A/B
+ 
+<img src="picture/3.9.png">
+
+Hình 3.9 Thử nghiệm A/B
+
+Kiểm tra shadow đánh giá hiệu suất dự đoán của mô hình như một phần của kiến trúc phần mềm rộng hơn nhưng không ảnh hưởng đến người dùng. Thử nghiệm A/B đảm nhận vai trò này. Thử nghiệm A/B là một phương pháp phổ biến trong công nghệ phần mềm, đặc biệt là trong các hệ thống web. Thử nghiệm A/B được định nghĩa là “một quá trình thử nghiệm ngẫu nhiên trong đó hai hoặc nhiều phiên bản của một biến (trang web, thành phần trang, ...) được hiển thị cho các phân khúc khách truy cập trang web khác nhau cùng lúc để xác định phiên bản nào để lại tác động tối đa và thúc đẩy các chỉ số kinh doanh.
+
+#### 3.2.7 Kiểm tra ghi nhãn
+ 
+<img src="picture/3.10.png">
+
+Hình 3.10 Kiểm tra ghi nhãn
+
+Các mô hình học máy hoạt động theo mô hình GIGO: garbage in, garbage out. Để ngăn các nhãn chất lượng kém bị cắt xén và làm hỏng mô hình, cần kiểm tra đơn vị các hệ thống và quy trình ghi nhãn.
+
+#### 3.2.8 Kiểm tra kỳ vọng
+ 
+<img src="picture/3.11.png">
+
+Hình 3.11 Kiểm tra kỳ vọng
+
+Kiểm tra kỳ vọng giải quyết hệ thống lưu trữ và tiền xử lý dữ liệu. Về cơ bản, chúng là các bài kiểm tra đơn vị cho dữ liệu. Chúng được thiết kế để phát hiện các vấn đề về chất lượng dữ liệu và dữ liệu xấu trước khi chúng được đưa vào hệ thống.
+
+
+
+
+
+## TÀI LIỆU THAM KHẢO
+### Tiếng Việt
+1.	Machine Learning cơ bản, Bài 7: Gradient Descent (phần 1/2), machinelearningcoban.com
+https://machinelearningcoban.com/2017/01/12/gradientdescent/ 
+2.	Machine Learning cơ bản, Bài 8: Gradient Descent (phần 2/2), machinelearningcoban.com
+https://machinelearningcoban.com/2017/01/16/gradientdescent2/ 
+3.	Vĩnh Anh Nghiêm Quân – Nguyễn Lê Trung Thành – Nguyễn Thị Lan Anh, ĐÁNH GIÁ HIỆU NĂNG CỦA CÁC THUẬT TOÁN TỐI ƯU TRONG MÔ HÌNH HỌC SÂU ĐỐI VỚI BÀI TOÁN PHÂN LỚP HÌNH ẢNH, Khoa Tin học – Trường ĐHSP Huế.
+https://csdlkhoahoc.hueuni.edu.vn/data/2021/5/BaiDangHoiThao.pdf 
+4.	Vương Quang Phước, Nguyễn Đức Nhật Quang, ĐÁNH GIÁ CÁC THUẬT TOÁN TỐI ƯU ĐỐI VỚI MÔ HÌNH MẠNG NƠ-RON TÍCH CHẬP TRONG TÁC VỤ NHẬN DIỆN HÌNH ẢNH, Khoa Điện, Điện tử và Công nghệ vật liệu, Trường Đại học Khoa học, Đại học Huế.
+https://jos.husc.edu.vn/backup/upload/vol_18/no_1/668_fulltext_4.%C4%90TVT%20-%20Phuoc%20-%20Vuong%20Quang%20Phuoc.pdf 
+5.	Trần Trung Trực, Optimizer- Hiểu sâu về các thuật toán tối ưu ( GD,SGD,Adam,..), viblo.asia.
+https://viblo.asia/p/optimizer-hieu-sau-ve-cac-thuat-toan-toi-uu-gdsgdadam-Qbq5QQ9E5D8 
+
+
+### Tiếng Anh
+6.	Zeiler, M. D. (2012), Adadelta: an adaptive learning rate method, arXiv preprint arXiv:1212.5701.
+7.	Reddi, S. J., Kale, S., & Kumar, S. (2019). On the convergence of adam and beyond. arXiv preprint arXiv:1904.09237.
+8.	Continual Learning, paperswithcode.com.
+https://paperswithcode.com/task/continual-learning 
+9.	Z. Chen and B. Liu, 2018, Lifelong Machine Learning, C H A P T E R 4 Continual Learning and Catastrophic Forgetting.
+https://www.cs.uic.edu/~liub/lifelong-learning/continual-learning.pdf 
+10.	Neri Van Otten (Oct 3, 2023), Continual Learning Made Simple, How To Get Started & Top 4 Models, https://spotintelligence.com.
+https://spotintelligence.com/2023/10/03/continual-learning/#Top_4_continual_learning_algorithms 
 
 
 
