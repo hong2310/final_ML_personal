@@ -87,8 +87,11 @@ Trong tất cả các bước thì việc thu thập dữ liệu, tiền xử l�
 Ứng dụng trong thực tế:
 
 •	Giải mã thị trường tài chính
+
 •	Thay đổi cục diện ngành nông nghiệp
+
 •	Nâng cao hiệu quả và cải thiện chất lượng dịch vụ ngành y tế
+
 •	Cơ quan nhà nước có thể quản lý trật tự xã hội và đảm bảo tình hình phát triển đất nước
 
 ## CHƯƠNG 2 – CÁC PHƯƠNG PHÁP OPTIMIZER
@@ -114,6 +117,7 @@ Hàm mất mát (Loss function) là một phương pháp đánh giá độ hiệ
 Hàm mất mát trả về một số thực không âm thể hiện sự chênh lệch giữa hai đại lượng: 
 
 •	a: nhãn được dự đoán
+
 •	y: nhãn đúng
 
 Bản thân hàm mất mát chính là một cơ chế thưởng-phạt, mô hình sẽ phải đóng phạt mỗi lần dự đoán sai và mức phạt tỉ lệ thuận với độ lớn sai sót. 
@@ -121,9 +125,82 @@ Trong mọi bài toán học có giám sát, mục tiêu luôn bao gồm giảm 
 Hai hàm mất mát thường xuyên được sử dụng trong mạng nơ-ron: 
 
 •	MSE (Mean Squared Error)
+
 •	Cross Entropy
 
+##### 2.1.2.2 Tỉ lệ học (Learning rate)
 
+Learning rate hay tỉ lệ học là một thông số quan trọng trong việc quyết định tốc độ học của mạng nơ-ron. Tốc độ học được thể hiện bằng sự thay đổi giá trị cập nhật trọng số (weights - w) trong các chu kỳ học. Tùy theo mục đích của mô hình mà tăng/ giảm tỉ lệ học. 
+
+Tỉ lệ học càng cao thì giúp mô hình học khá nhanh và tiết kiệm được thời gian huấn luyện, tuy nhiên việc tỉ lệ học lớn đồng nghĩa với việc sự thay đổi trọng số (weights - w) và tham số ngưỡng (bias - b) càng lớn, mô hình không ổn định, một số chu kỳ học có sự dao động mạnh ở tỉ lệ nhận dạng đúng hay nói cách khác là thuật toán không được tối ưu và ngược lại đối với tỉ lệ học nhỏ.
+
+#### 2.1.3 Yếu tố đánh giá một thuật toán tối ưu
+
+Một vài các yếu tố hay được sử dụng để đánh giá một thuật toán tối ưu (Optimizer):
+
+•	Hội tụ nhanh (trong quá trình train)
+
+•	Sự tổng quát hóa cao (vẫn nhận dạng được những mẫu chưa từng được huấn luyện)
+
+•	Độ chính xác cao
+
+### 2.2 Một số thuật toán tối ưu (Optimization Algorithms)
+
+Một số thuật toán tối ưu phổ biến:
+
+1.	Gradient Descent
+2.	SGD với động lượng
+3.	RMSProp
+4.	Adagrad
+5.	Adadelta
+6.	Adam
+7.	AdamW
+8.	AMSGrad
+   
+#### 2.2.1 Gradient Descent (GD)
+
+Gradient Descent (GD) là thuật toán tìm tối ưu chung cho các hàm số. Ý tưởng chung của GD là điều chỉnh các tham số để lặp đi lặp lại thông qua mỗi dữ liệu huấn luyện để giảm thiểu hàm chi phí. 
+
+𝑤(𝑘+1) = 𝑤(𝑘) − 𝜂 ∇𝑤 𝐽(𝑤(𝑘) )
+
+Trong đó:
+
+•	𝑤(𝑘) : tham số tại bước cập nhật tại lớp k
+
+•	Η: tỉ lệ học
+
+•	𝐽(𝑤): hàm lỗi
+
+•	∇𝑤 𝐽(𝑤 (𝑘)): đạo hàm của hàm lỗi tại điểm 𝑤(𝑘)
+
+Ví dụ:
+
+```sh
+from __future__ import division, print_function, unicode_literals
+import math
+import numpy as np 
+import matplotlib.pyplot as plt
+
+def grad(x):
+    return 2*x+ 5*np.cos(x)
+
+def cost(x):
+    return x**2 + 5*np.sin(x)
+
+def myGD1(eta, x0):
+    x = [x0]
+    for it in range(100):
+        x_new = x[-1] - eta*grad(x[-1])
+        if abs(grad(x_new)) < 1e-3:
+            break
+        x.append(x_new)
+    return (x, it)
+
+(x1, it1) = myGD1(.1, -5)
+(x2, it2) = myGD1(.1, 5)
+print('Solution x1 = %f, cost = %f, obtained after %d iterations'%(x1[-1], cost(x1[-1]), it1))
+print('Solution x2 = %f, cost = %f, obtained after %d iterations'%(x2[-1], cost(x2[-1]), it2))
+```
 
 
 
