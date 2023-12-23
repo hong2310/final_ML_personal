@@ -201,6 +201,24 @@ def myGD1(eta, x0):
 print('Solution x1 = %f, cost = %f, obtained after %d iterations'%(x1[-1], cost(x1[-1]), it1))
 print('Solution x2 = %f, cost = %f, obtained after %d iterations'%(x2[-1], cost(x2[-1]), it2))
 ```
+Kết quả:
+
+```sh
+Solution x1 = -1.110667, cost = -3.246394, obtained after 11 iterations
+Solution x2 = -1.110341, cost = -3.246394, obtained after 29 iterations
+```
+	Điểm khởi tạo khác nhau
+
+Sau khi có các hàm cần thiết, tôi thử tìm nghiệm với các điểm khởi tạo khác nhau là x0 = −5 và x0 = 5.
+
+<img src="picture/2.2.png"> <img src="picture/2.2.1.png">
+
+Hình 2.2 Minh họa thuật toán GD với điểm khởi tạo khác nhau
+
+Từ hình minh họa trên ta thấy rằng ở hình bên trái, tương ứng với x0 =−5, nghiệm hội tụ nhanh hơn, vì điểm ban đầu x0 gần với nghiệm x* ≈ −1 hơn. Hơn nữa, với x0 =5 ở hình bên phải, đường đi của nghiệm có chứa một khu vực có đạo hàm khá nhỏ gần điểm có hoành độ bằng 2. 
+
+	Điều này khiến cho thuật toán la cà ở đây khá lâu. Khi vượt qua được điểm này thì mọi việc diễn ra rất tốt đẹp.
+
 
 
 
