@@ -217,7 +217,243 @@ Hình 2.2 Minh họa thuật toán GD với điểm khởi tạo khác nhau
 
 Từ hình minh họa trên ta thấy rằng ở hình bên trái, tương ứng với x0 =−5, nghiệm hội tụ nhanh hơn, vì điểm ban đầu x0 gần với nghiệm x* ≈ −1 hơn. Hơn nữa, với x0 =5 ở hình bên phải, đường đi của nghiệm có chứa một khu vực có đạo hàm khá nhỏ gần điểm có hoành độ bằng 2. 
 
-	Điều này khiến cho thuật toán la cà ở đây khá lâu. Khi vượt qua được điểm này thì mọi việc diễn ra rất tốt đẹp.
+=>	Điều này khiến cho thuật toán la cà ở đây khá lâu. Khi vượt qua được điểm này thì mọi việc diễn ra rất tốt đẹp.
+
+	Learning rate khác nhau
+
+Tốc độ hội tụ của GD không những phụ thuộc vào điểm khởi tạo ban đầu mà còn phụ thuộc vào learning rate. 
+
+Ví dụ với cùng điểm khởi tạo x0 = −5 nhưng learning rate khác nhau:
+
+<img src="picture/2.3.png"> <img src="picture/2.3.1.png">
+
+Hình 2.3 Minh họa thuật toán GD với Learning rate khác nhau
+
+Ta quan sát thấy hai điều:
+
+1.	Với learning rate nhỏ η=0.01, tốc độ hội tụ rất chậm. Trong ví dụ, do chọn tối đa 100 vòng lặp nên thuật toán dừng lại trước khi tới đích, mặc dù đã rất gần. Trong thực tế, khi việc tính toán trở nên phức tạp, learning rate quá thấp sẽ ảnh hưởng tới tốc độ của thuật toán rất nhiều, thậm chí không bao giờ tới được đích.
+2.	Với learning rate lớn η=0.5, thuật toán tiến rất nhanh tới gần đích sau vài vòng lặp. Tuy nhiên, thuật toán không hội tụ được vì bước nhảy quá lớn, khiến nó cứ quẩn quanh ở đích.
+   
+	Việc lựa chọn learning rate rất quan trọng trong các bài toán thực tế. Việc lựa chọn giá trị này phụ thuộc nhiều vào từng bài toán và phải làm một vài thí nghiệm để chọn ra giá trị tốt nhất. Ngoài ra, tùy vào một số bài toán, GD có thể làm việc hiệu quả hơn bằng cách chọn ra learning rate phù hợp hoặc chọn learning rate khác nhau ở mỗi vòng lặp.
+
+Có một số biến thể khác nhau của GD tùy thuộc vào số lượng dữ liệu được sử dụng để tính gradient của hàm mất mát. Gồm: 
+
+1.	Batch Gradient Descent (Batch GD)
+2.	Stochastic Gradient Descent (SGD)
+3.	Mini-batch Gradient Descent (Mini-batch GD)
+   
+##### 2.2.1.1 Batch Gradient Descent (Batch GD)
+
+Thuật toán Batch Gradient Descent (Batch GD) tính gradient của hàm mất mát tại w trên toàn bộ tập dữ liệu. Tất cả các điểm dữ liệu đều được sử dụng để tính gradient trước khi cập nhật bộ trọng số w. Hạn chế của Batch GD là khi tập dữ liệu lớn, việc tính gradient sẽ tốn nhiều thời gian và chi phí tính toán.
+
+##### 2.2.1.2 Stochastic Gradient Descent (SGD)
+
+Để khắc phục hạn chế của Bathc GD, thuật toán Stochastic Gradient Descent (SGD) thực hiện việc cập nhật trọng số với mỗi mẫu dữ liệu x(i) có nhãn tương ứng y(i) như sau: 
+
+𝑤(𝑘+1) = 𝑤(𝑘) − 𝜂 ∇𝑤 𝐽(𝑤(𝑘), x(i), y(i))
+
+Với cách cập nhật này, SGD thường nhanh hơn Batch GD và có thể sử dụng để học trực tuyến (online learning) khi tập dữ liệu huấn luyện được cập nhật liên tục. 
+
+Với SGD, bộ trọng số w được cập nhật thường xuyên hơn so với Batch GD và vì vậy hàm mất mát cũng dao động nhiều hơn. Sự dao động này khiến SGD có vẻ không ổn định nhưng lại có điểm tích cực là nó giúp di chuyển đến những điểm cực tiểu (địa phương) mới có tiềm năng hơn. Với tốc độ học giảm, khả năng hội tụ của SGD cũng tương đương với Batch GD.
+
+Hàm số trong Python để giải Linear Regression theo SGD:
+
+```sh
+def sgrad(w, i, rd_id):
+    true_i = rd_id[i]
+    xi = Xbar[true_i, :]
+    yi = y[true_i]
+    a = np.dot(xi, w) - yi
+    return (xi*a).reshape(2, 1)
+
+def SGD(w_init, grad, eta):
+    w = [w_init]
+    w_last_check = w_init
+    iter_check_w = 10
+    N = X.shape[0]
+    count = 0
+    for it in range(10):  
+# shuffle data 
+        rd_id = np.random.permutation(N)
+        for i in range(N):
+            count += 1 
+            g = sgrad(w[-1], i, rd_id)
+            w_new = w[-1] - eta*g
+            w.append(w_new)
+            if count%iter_check_w == 0:
+                w_this_check = w_new                 
+                if np.linalg.norm(w_this_check - w_last_check)/len(w_init) < 1e-3:                                    
+                    return w
+                w_last_check = w_this_check
+    return w
+```
+
+Kết quả thu được:
+
+<img src="picture/2.4.png"> <img src="picture/2.4.1.png">
+Hình 2.4 Trái: đường đi của nghiệm với SGD. Phải: giá trị của Loss function tại 50 vòng lặp đầu tiên.
+
+##### 2.2.1.3 Mini-batch Gradient Descent (Mini-batch GD)
+
+Cách tiếp cận thứ ba là thuật toán Mini-batch Gradient Descent (Mini-batch GD). Khác với hai thuật toán trước, Mini-batch GD sử dụng t điểm dữ liệu để cập nhật bộ trọng số (1<t<N) với N là tổng số điểm dữ liệu). 
+
+𝑤(𝑘+1) = 𝑤(𝑘) − 𝜂 ∇𝑤 𝐽(𝑤(𝑘), x(i: i+t), y(i: i+t))
+
+Với x(i: i+t) được hiểu là dữ liệu từ thứ i tới thứ i+t−1. Dữ liệu này sau mỗi epoch là khác nhau vì chúng cần được xáo trộn. Một lần nữa, các thuật toán khác cho GD như Momentum, Adagrad, Adadelta, … cũng có thể được áp dụng vào đây. Giá trị t thường được chọn là khoảng từ 50 đến 100. 
+
+Mini-batch GD giảm sự dao động của hàm mất mát so với SGD và chi phí tính gradient với k điểm dữ liệu là chấp nhận được. 
+
+Mini-batch GD thường được lựa chọn khi huấn luyện mạng nơron và vì vậy trong một số trường hợp, SGD được hiểu là Mini-batch GD. Riêng bản thân Mini-batch GD không đảm bảo tìm được điểm cực tiểu của hàm mất mát mà bên cạnh đó các yếu tố như tốc độ học, thuộc tính dữ liệu và tính chất của hàm mất mát cũng ảnh hưởng đến điều này.
+
+Ví dụ về giá trị của hàm mất mát mỗi khi cập nhật tham số w của một bài toán khác:
+
+<img src="picture/2.5.png">
+Hình 2.5 Ví dụ về Mini-batch Gradient Descent
+
+	Hàm mất mát nhảy lên nhảy xuống (fluctuate) sau mỗi lần cập nhật nhưng nhìn chung giảm dần và có xu hướng hội tụ về cuối.
+
+#### 2.2.2 SGD với động lượng (SGD with momentum)
+
+SGD với momentum là phương pháp giúp tăng tốc các vectơ độ dốc theo đúng hướng, và giúp hệ thống hội tụ nhanh hơn. Đây là một trong những thuật toán tối ưu hóa phổ biến nhất và nhiều mô hình hiện đại sử dụng nó để đào tạo. 
+
+Mô tả như sau: 
+
+𝑣𝑗 ← 𝛼 ∗ 𝑣𝑗 − 𝜂 ∗ 𝛻𝑊 ∑_1^m▒〖L_m (w) 〗 
+
+𝑤𝑗 ← 𝑣𝑗 + 𝑤𝑗
+
+Phương trình có hai phần. Trong đó:
+
+	vj: độ dốc được giữ lại từ các lần lặp trước
+ 
+	Hệ số động lượng α: tỉ lệ phần trăm của độ dốc được giữ lại mỗi lần lặp
+ 
+	L: hàm mất mát
+ 
+	η: tỉ lệ học
+
+#### 2.2.3 RMSProp (Root Mean Square Propogation)
+
+RMSProp sử dụng trung bình bình phương của gradient để chuẩn hóa gradient. Có tác dụng cân bằng kích thước bước - giảm bước cho độ dốc lớn để tránh hiện tượng phát nổ độ dốc (Exploding Gradient), và tăng bước cho độ dốc nhỏ để tránh biến mất độ dốc (Vanishing Gradient). RMSProp tự động điều chỉnh tốc độ học tập, và chọn một tỉ lệ học tập khác nhau cho mỗi tham số. 
+
+Phương pháp cập nhật các trọng số được thực hiện như mô tả:
+
+𝑠𝑡 = 𝜌𝑠𝑡−1 + (1 − 𝜌) ∗ g_t^2
+
+𝛥𝑥𝑡 = -η/√(s_t  + ϵ) ∗ 𝑔𝑡 
+
+𝑥𝑡+1 = 𝑥𝑡 + 𝛥𝑥t
+
+Trong đó:
+
+	𝑠𝑡: tích luỹ phương sai của các gradient trong quá khứ
+ 
+	𝜌: tham số suy giảm
+ 
+	𝛥𝑥𝑡: sự thay đổi các tham số trong mô hình
+ 
+	𝑔𝑡: gradient của các tham số tại vòng lặp t
+ 
+	ϵ: tham số đảm bảo kết quả xấp xỉ có ý nghĩa.
+ 
+#### 2.2.4 Adagrad
+
+Adagrad là một kỹ thuật học máy tiên tiến, thực hiện giảm dần độ dốc bằng cách thay đổi tốc độ học tập. Adagrad được cải thiện hơn bằng cách cho trọng số học tập chính xác dựa vào đầu vào trước nó để tự điều chỉnh tỉ lệ học theo hướng tối ưu nhất thay vì với một tỉ lệ học duy nhất cho tất cả các nút.
+
+Thuật toán Adagrad được Duchi J. và các cộng sự đề xuất năm 2011. Khác với SGD, tốc độ học trong Adagrad thay đổi tùy thuộc vào trọng số: tốc độ học thấp đối với các trọng số tương ứng với các đặc trưng phổ biến, tốc độ học cao đối với các trọng số tương ứng với các đặc trưng ít phổ biến.
+
+gt, i  = ∇wJ (wt, i)
+
+Trong đó:
+
+	gt: gradient của hàm mất mát tại bước t
+ 
+	gt, i :  đạo hàm riêng của hàm mất mát theo wi tại bước t
+ 
+Quy tắc cập nhật của Adagrad:
+
+w𝑡+1, i = wt, i -η/√(G_(t,ii)  + ϵ) ∗ 𝑔𝑡, i
+
+Theo quy tắc cập nhật, Adagrad điều chỉnh tốc độ học η tại bước t tương ứng với trọng số wi xác định dựa trên các gradient đã tính được theo wi. 
+
+	Mẫu số là chuẩn L2 (L2 norm) của ma trận đường chéo Gt trong đó phần tử i,i là tổng bình phương của các gradient tương ứng với wi tính đến bước t.
+ 
+	ε là một số dương khá nhỏ nhằm tránh trường hợp mẫu số bằng 0.
+ 
+Quy tắc cập nhật trên có thể viết dưới dạng tổng quát hơn như sau:
+
+w𝑡+1 = wt -η/√(G_t  + ϵ) ⨀𝑔𝑡
+
+Trong đó, ⨀ là phép nhân ma trận-vectơ giữa Gt và gt . 
+
+Có thể nhận thấy rằng trong thuật toán Adagrad tốc độ học được tự động điều chỉnh. Adagrad thường khá hiệu quả đối với bài toán có dữ liệu phân mảnh. Tuy nhiên, hạn chế của Adagrad là các tổng bình phương ở mẫu số ngày càng lớn khiến tốc độ học ngày càng giảm và có thể tiệm cận đến giá trị 0 khiến cho quá trình huấn luyện gần như đóng băng. Bên cạnh đó, giá trị tốc độ học η cũng phải được xác định một cách thủ công.
+
+#### 2.2.5 Adadelta
+
+Thuật toán Adadelta được Zeiler và các cộng sự đề xuất năm 2012. Adadelta là một biến thể của Adagrad để khắc phục tình trạng giảm tốc độ học ở Adagrad. Adadelta không có tham số tỉ lệ học cho nên, thay vì lưu lại tất cả gradient như Adagrad, Adadelta giới hạn tích lũy gradient theo cửa sổ có kích thước cố định của trọng số w. Bằng cách này, Adadelta vẫn tiếp tục học sau nhiều bước cập nhật.
+
+g_t^'= √((〖Δx〗_(t-1)+ϵ)/(s_t+ϵ)) *𝑔𝑡 
+
+𝑥𝑡 = 𝑥𝑡−1 − g_t^' 
+
+𝛥𝑥𝑡 = 𝜌𝛥𝑥𝑡−1 + (1 − 𝜌) x_t^2
+
+Từ công thức, Adadelta sử dụng 2 biến trạng thái: 
+
+	𝑠𝑡: để lưu trữ trung bình của khoảng thời gian thứ hai của gradient và Δ𝑥𝑡 để lưu trữ trung bình của khoảng thời gian thứ 2 của sự thay đổi các tham số trong mô hình. 
+ 
+	g_t^': căn bậc hai thương của trung bình tốc độ thay đổi bình phương và trung bình mô-men bậc hai của gradient. 
+ 
+#### 2.2.6 Adam
+
+Adam được xem như là sự kết hợp của RMSprop và Stochastic Gradient Descent với động lượng. Adam là một phương pháp tỉ lệ học thích ứng, nó tính toán tỉ lệ học tập cá nhân cho các tham số khác nhau. Adam sử dụng ước tính của khoảng thời gian thứ nhất và thứ hai của độ dốc để điều chỉnh tỉ lệ học cho từng trọng số của mạng nơ-ron.
+
+Tuy nhiên, qua nghiên cứu thực nghiệm, trong một số trường hợp, Adam vẫn còn gặp phải nhiều thiếu sót so với thuật toán SGD. Thuật toán Adam được mô tả: 
+
+𝑚𝑡 = 𝛽1𝑚𝑡−1 + (1 − 𝛽1)𝑔𝑡
+
+𝑣𝑡 = 𝛽2𝑣𝑡−1 + (1 − 𝛽2) g_t^2
+
+Trong đó:
+
+	vt là trung bình động của bình phương
+ 
+	mt là trung bình động của gradient
+ 
+	β1và β2 là tốc độ của di chuyển
+ 
+#### 2.2.7 AdamW
+
+AdamW là một biến thể của Adam. Ý tưởng của AdamW khá đơn giản: khi thực hiện thuật toán Adam với L2 regularization (chuẩn hóa L2), tác giả loại bỏ phần tiêu biến của trọng số (weight decay) wtθt khỏi công thức tính gradient hàm mất mát tại thời điểm t: 
+
+gt = 𝛥f(θt) + wtθt
+
+và thay vào đó, đưa phần giá trị đã được phân tách này vào quá trình cập nhật trọng số: 
+
+θ_(t+1,i)=θ_(t,i)-η(1/√((v_t ) ̂+ϵ)*(m_t ) ̂+w_(t,i) θ_(t,i) ),∀t
+
+#### 2.2.8 AMSGrad
+
+AMSGrad sử dụng giá trị lớn nhất của các bình phương gradient trước đó vt để cập nhật các trọng số. Ở đây, vt cũng được định nghĩa như trong thuật toán Adam: 
+
+𝑣𝑡 = 𝛽2𝑣𝑡−1 + (1 − 𝛽2) g_t^2
+
+Thay vì trực tiếp sử dụng vt (hay giá trị ước lượng (v_t ) ̂ ), thuật toán sẽ sử dụng giá trị trước đó vt-1 nếu giá trị này lớn hơn giá trị hiện tại: 
+
+(v_t ) ̂=max⁡((v_(t-1) ) ̂,v_t) 
+
+Tương tự như trong thuật toán Adam, các giá trị được ước lượng theo công thức dưới đây để khử lệch cho các trọng số:
+
+𝑚𝑡 = 𝛽1𝑚𝑡−1 + (1 − 𝛽1)𝑔𝑡
+
+𝑣𝑡 = 𝛽2𝑣𝑡−1 + (1 − 𝛽2) g_t^2
+
+(v_t ) ̂=max⁡((v_(t-1) ) ̂,v_t) 
+
+AMSGrad được cập nhật theo quy tắc:
+
+w𝑡+1 = wt -η/√((v_t ) ̂  + ϵ)*m𝑡
+
 
 
 
