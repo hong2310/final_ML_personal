@@ -13,6 +13,5 @@ Machine learning (học máy hay máy học) là một nhánh con của trí tu�
 
 Một cách tổng quát, trong cuốn sách Machine Learning của tác giả Tom Mitchell xuất bản năm 1997, học máy được định nghĩa như sau: “A computer program is said to learn to perform a task T from experience E, if its performance at task T, as measured by a performance metric P, improves with experience E over time” (Một chương trình máy tính được cho là học để thực hiện một nhiệm vụ T từ kinh nghiệm E, nếu hiệu suất thực hiện công việc T của nó được đo bởi chỉ số hiệu suất P và được cải thiện bởi kinh nghiệm E theo thời gian).
 Khác biệt giữa chương trình lập trình truyền thống và học máy.
-<img src="![image](https://github.com/hong2310/final_ML_personal/assets/154388629/4bdb165c-87ea-4354-98e9-714f853c0eaf)
-">
+<img src="picture/1.1.png">
 
