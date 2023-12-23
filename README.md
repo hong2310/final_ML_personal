@@ -34,3 +34,5 @@ Hình 1.2 Mối quan hệ giữa AI, Machine Learning và Deep Learning
 
 
 
+
+
